@@ -40,7 +40,7 @@ tagpage_posts = [
         date_posted=datetime.date(2019, 8, 7),
         post_link='http://www.metafilter.com/12348/TESTING-PARSERS',
         posted_by_link='http://www.metafilter.com/user/36',
-        posted_by_username='MeFite4',
+        posted_by_username='Mefite name\'s can have weird characters',
         num_comments=1622,
         content='<div class="copy post"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Equidem e Cn. Tollenda est atque extrahenda radicitus. Idem adhuc; <a href="http://loripsum.net/" target="_blank">Nos vero, inquit ille;</a> Tuo vero id quidem, inquam, arbitratu. Duo Reges: constructio interrete. <i>Quibusnam praeteritis?</i> Num quid tale Democritus? <span class="smallcopy">[<a href="http://www.metafilter.com/12348/TESTING-PARSERS" target="_self">more inside</a>]</span><br/>\n\n</div>',
         tags=None),

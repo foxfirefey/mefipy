@@ -3,7 +3,7 @@ import os
 import unittest
 
 from mefipy import parse
-from tagpage import tagpage_posts
+from .tagpage import tagpage_posts
 
 files_directory = os.path.join(os.path.dirname(__file__), "data")
 
