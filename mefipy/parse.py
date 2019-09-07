@@ -195,16 +195,20 @@ def parse_post_comments_between(content, start_timestamp, end_timestamp):
     return post, comments
 
 def post_is_active(post, on_date, days_open=30):
-    """Was this post active on the days after and before the given date range?"""
+    """Was this post active on the days after and before the given date range?  Fudge one day """
 
     if isinstance(on_date, datetime.datetime):
         on_date = datetime.date()
-
-    post_activity_ends = post.date_posted + datetime.timedelta(days=30)
-
-    return post_activity_ends >= on_date
     
-def filter_active_posts(posts, on_date, days_open=30):
+    # it's not active if it's in the future
+    if post.date_posted > on_date:
+        return False
+
+    post_activity_ends = post.date_posted + datetime.timedelta(days=days_open + 1)
+ 
+    return post_activity_ends >= on_date
+
+def filter_active_posts(posts, on_date, days_open=31):
     """Given a list of posts, a date range, and the number of days open and what we consider to be "today",
        return only the posts that could have activity on them.  Err on the side of day after closing, because
        we can't time that exactly."""
