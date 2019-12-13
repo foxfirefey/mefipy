@@ -194,7 +194,7 @@ def parse_post_comments_between(content, start_timestamp, end_timestamp):
     
     return post, comments
 
-def post_is_active(post, on_date, days_open=30):
+def post_is_active(post, on_date, days_open=31):
     """Was this post active on the days after and before the given date range?  Fudge one day """
 
     if isinstance(on_date, datetime.datetime):
@@ -208,6 +208,21 @@ def post_is_active(post, on_date, days_open=30):
  
     return post_activity_ends >= on_date
 
+def post_is_active_date_range(post, start_date, end_date, days_open=31):
+
+    if isinstance(start_date, datetime.datetime):
+        start_date = start_date.date()
+    if isinstance(end_date, datetime.datetime):
+        end_date = end_date.date()
+
+    # it's not active if it's in the future
+    if post.date_posted > end_date:
+        return False
+
+    post_activity_ends = post.date_posted + datetime.timedelta(days=days_open + 1)
+
+    return post_activity_ends >= start_date
+
 def filter_active_posts(posts, on_date, days_open=31):
     """Given a list of posts, a date range, and the number of days open and what we consider to be "today",
        return only the posts that could have activity on them.  Err on the side of day after closing, because
@@ -217,6 +232,14 @@ def filter_active_posts(posts, on_date, days_open=31):
         on_date = on_date.date()    
 
     return [post for post in posts if post_is_active(post, on_date, days_open=days_open)]
+
+def filter_active_posts_date_range(posts, start_date, end_date, days_open=31):
+    if isinstance(start_date, datetime.datetime):
+        start_date = start_date.date()
+    if isinstance(end_date, datetime.datetime):
+        end_date = end_date.date()
+
+    return [post for post in posts if post_is_active_date_range(post, start_date, end_date, days_open=days_open)]
 
 def get_tag_posts(tag, page=1):
     """Uses the requests library to post the first 50 posts that appear under a tag."""
@@ -231,7 +254,7 @@ def run_activity_summary(tags, start_date, end_date, report=sys.stdout, report_n
 
     posts = dict()
     for tag in tags:
-        for post in filter_active_posts(get_tag_posts(tag), start_date):
+        for post in filter_active_posts_date_range(get_tag_posts(tag), start_date, end_date):
             posts[post.post_link] = post
     # order our posts by date with the most recent first
     posts = sorted(list(posts.values()), key=lambda post: post.date_posted, reverse=True)
