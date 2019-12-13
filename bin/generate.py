@@ -5,7 +5,7 @@ import sys
 
 from mefipy.parse import run_activity_summary
 
-DEFAULT_TAGS = ["uspolitics", "potus45", "GOP", "plannedparenthood", "capitalism", "socialism", "whitesupremacy", "labor"]
+DEFAULT_TAGS = ["uspolitics", "potus45", "GOP", "plannedparenthood", "capitalism", "socialism", "whitesupremacy", "organizedlabor", "SCOTUS", "firstamendment", "usa", "americanaffairs"]
 
 def setup_args():
     parser = argparse.ArgumentParser(description="Make an activity report for the given tags.")
